@@ -1,6 +1,6 @@
 # Splunk On
 
-Basic REST reader allows you to query a Splunk management interface with valid credentials.
+Basic utility to query the Splunk management REST interface with valid credentials.
 
 Users can pull back a bit of data but probably want `admin` permissions ([see here](https://docs.splunk.com/Documentation/InfraApp/2.2.5/Admin/AdminUserAccounts)) to get interesting data, and the management port 8089 needs to be exposed.
 
@@ -11,8 +11,46 @@ If you're on a local instance, you may need to specify `localhost:8089` instead 
 
 JSON file with the entire (very verbose) Splunk responses logged to `splunkon.json`
 
-## Paths
+```
+$ ./splunkon https://localhost:8089 admin password123
+2022/12/01 20:30:42 Beginning recon on https://localhost:8089
 
+CURRENT USER:
++---+----------+----------------------+---------------+------------+--------+----+---------+
+| # | USERNAME | EMAIL                | REAL NAME     | LAST LOGIN | LOCKED | TZ | ROLES   |
++---+----------+----------------------+---------------+------------+--------+----+---------+
+| 0 | admin    | changeme@example.com | Administrator | 1670039682 | false  |    | [admin] |
++---+----------+----------------------+---------------+------------+--------+----+---------+
+
+USERS:
++---+----------+----------------------+---------------+------------+--------+-----+---------+--------+
+| # | USERNAME | EMAIL                | REAL NAME     | LAST LOGIN | LOCKED | TZ  | ROLES   | TYPE   |
++---+----------+----------------------+---------------+------------+--------+-----+---------+--------+
+| 0 | admin    | changeme@example.com | Administrator | 1670039682 | false  |     | [admin] | Splunk |
+| 1 | j_doe    |                      | John Doe      | 1670038706 | false  | GMT | [user]  | Splunk |
++---+----------+----------------------+---------------+------------+--------+-----+---------+--------+
+
+ROLES:
++---+--------------------+--------------------+--------------+-----------------------+--------------------+
+| # | NAME               | DEFAULT SEARCH IDX | CAPABILITIES | IMPORTED CAPABILITIES | ADMIN CAPABILITIES |
++---+--------------------+--------------------+--------------+-----------------------+--------------------+
+| 0 | admin              | [main os]          |          104 |                    39 | true               |
+| 1 | can_delete         | []                 |            6 |                     0 | false              |
+| 2 | power              | [main]             |           10 |                    29 | false              |
+| 3 | splunk-system-role | []                 |            0 |                   143 | true               |
+| 4 | user               | [main]             |           29 |                     0 | false              |
++---+--------------------+--------------------+--------------+-----------------------+--------------------+
+```
+
+## Endpoints
+
+Replace splunkcloud.com with localhost or your target instance
+
+There are a ton of endpoints, feel free to add more
+- https://docs.splunk.com/Documentation/Splunk/latest/RESTREF/RESTlist
+- https://docs.splunk.com/Documentation/Splunk/9.0.2/RESTUM/RESTusing#Authentication_and_authorization
+
+```
 https://<cloudinstance>.splunkcloud.com:8089/services/authentication/users
 https://<cloudinstance>.splunkcloud.com:8089/services/admin/system-info
 https://<cloudinstance>.splunkcloud.com:8089/services/admin/server-info
@@ -28,10 +66,7 @@ https://<cloudinstance>.splunkcloud.com:8089/services/apps/local
 https://<cloudinstance>.splunkcloud.com:8089/services/admin/savedsearch
 https://<cloudinstance>.splunkcloud.com:8089/services/alerts/fired_alerts
 https://<cloudinstance>.splunkcloud.com:8089/services/storage/passwords
-
-There are a ton of endpoints, feel free to add more
-- https://docs.splunk.com/Documentation/Splunk/latest/RESTREF/RESTlist
-- https://docs.splunk.com/Documentation/Splunk/9.0.2/RESTUM/RESTusing#Authentication_and_authorization
+```
 
 ## Detection
 Splunk logs all the things.
