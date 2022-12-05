@@ -12,14 +12,9 @@ import (
 
 type UsrRoleSamlMap struct {
 	Entry []struct {
-		Title   string    `json:"title"`
+		Name    string    `json:"name"`
 		Updated time.Time `json:"updated"`
-		Content struct {
-			Email    string   `json:"email"`
-			Realname string   `json:"realname"`
-			Roles    []string `json:"roles"`
-			Type     string   `json:"type"`
-		} `json:"content"`
+		Content string    `json:"content"`
 	} `json:"entry"`
 	Messages []interface{} `json:"messages"`
 }
@@ -47,7 +42,7 @@ func PrintSAMLMap(samlMap UsrRoleSamlMap) {
 
 	for k, u := range samlMap.Entry {
 		t.AppendRows([]table.Row{
-			{k, u.Title, u.Content.Email, u.Content.Realname, u.Content.Type, u.Content.Roles},
+			{k, u.Name, u.Content, u.Updated},
 		})
 	}
 	t.Render()

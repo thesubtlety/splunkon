@@ -12,7 +12,7 @@ import (
 func main() {
 
 	if len(os.Args) != 4 {
-		log.Fatalln("Usage: ./splunkon <https://target:8089/ user pass")
+		log.Fatalln("Usage: ./splunkon https://target:8089/ user pass")
 	}
 	baseURL := os.Args[1]
 	user := os.Args[2]
@@ -41,6 +41,8 @@ func main() {
 	getLocalApps(c)
 	getSavedSearches(c)
 	getFiredAlerts(c)
+
+	log.Println("Completed. Wrote output to splunkon.json")
 }
 
 func checkAuth(c *splunkon.Client) {
