@@ -25,42 +25,6 @@ func New(username string, password string, baseURL url.URL) *Client {
 	}
 }
 
-// func (client Client) Get(path string) (*http.Response, error) {
-
-// 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
-
-// 	url := fmt.Sprintf("%s/%s", client.baseURL, path)
-// 	//fmt.Printf("[dbg] %s\n", url)
-
-// 	c := &http.Client{
-// 		Timeout: time.Second * 5,
-// 	}
-// 	req, err := http.NewRequest("GET", url, nil)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("%s", err.Error())
-// 	}
-// 	req.Header.Set("User-Agent", "splunk-sdk-python/1.6.42")
-// 	req.SetBasicAuth(client.username, client.password)
-
-// 	response, err := c.Do(req)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("%s", err.Error())
-// 	}
-
-// 	//bodyBytes, _ := io.ReadAll(response.Body)
-// 	//fmt.Printf("[dbg] body %+s\n", string(bodyBytes))
-
-// 	if response.StatusCode == http.StatusForbidden {
-// 		log.Fatal("Forbidden")
-// 	}
-
-// 	if response.StatusCode != http.StatusOK {
-// 		return nil, fmt.Errorf("Unexpected status, %v", response.StatusCode)
-// 	}
-
-// 	return response, nil
-// }
-
 func (client Client) Get(path string) ([]byte, error) {
 
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
